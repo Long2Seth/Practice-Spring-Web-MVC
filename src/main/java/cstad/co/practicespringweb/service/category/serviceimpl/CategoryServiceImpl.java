@@ -40,13 +40,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public List<CategoryResponse> getAllCategory() {
-        return categoryRepository.allCategories().stream().map(category -> {
-            return CategoryResponse.builder()
-                    .id(category.getId())
-                    .title(category.getTitle())
-                    .description(category.getDescription())
-                    .build();
-        }).toList();
+        return categoryRepository.allCategories()
+                .stream()
+                .map(category -> {
+                            return mapCategoryToResponse(category);
+                        }
+                ).toList();
     }
 
     @Override
@@ -71,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse deleteCategory( int id) {
+    public CategoryResponse deleteCategory(int id) {
         Category categoryDelete = categoryRepository.allCategories().stream()
                 .filter(category -> category.getId() == id)
                 .findFirst()
@@ -81,8 +80,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse putCategory(CategoryRequest categoryRequest , int id) {
-        Category categoryToUpdate = categoryRepository.allCategories().stream()
+    public CategoryResponse putCategory(CategoryRequest categoryRequest, int id) {
+        Category categoryToUpdate = categoryRepository.allCategories()
+                .stream()
                 .filter(category -> category.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Category Not Found!"));
@@ -92,7 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
             categoryToUpdate.setTitle(categoryRequest.title());
             categoryToUpdate.setDescription(categoryRequest.description());
 
-            categoryRepository.updateCategory(categoryToUpdate,id);
+            categoryRepository.updateCategory(categoryToUpdate, id);
             return mapCategoryToResponse(categoryToUpdate);
         } else {
             return null;
@@ -101,30 +101,30 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public CategoryResponse patchCategory(CategoryRequest categoryRequest , int id) {
+    public CategoryResponse patchCategory(CategoryRequest categoryRequest, int id) {
         Category categoryToUpdate = categoryRepository.allCategories().stream()
                 .filter(category -> category.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND, "Category Not Found!"));
 
         if (categoryToUpdate != null) {
-            Category newcategory ;
-            if (categoryRequest.title() != null){
+            if (categoryRequest.title() != null) {
+                System.out.println("title" + categoryRequest.title());
                 categoryToUpdate.setTitle(categoryRequest.title());
-                if (categoryToUpdate.getTitle() == null){
+                if (categoryToUpdate.getTitle() == null) {
                     categoryToUpdate.setTitle(categoryToUpdate.getTitle());
                 }
             }
 
-            if (categoryRequest.description() != null){
+            if (categoryRequest.description() != null) {
                 categoryToUpdate.setDescription(categoryRequest.description());
-                if (categoryToUpdate.getDescription() == null){
+                if (categoryToUpdate.getDescription() == null) {
                     categoryToUpdate.setDescription(categoryToUpdate.getDescription());
                 }
             }
 
 
-            categoryRepository.updateCategory(categoryToUpdate,id);
+            categoryRepository.updateCategory(categoryToUpdate, id);
             return mapCategoryToResponse(categoryToUpdate);
         } else {
             return null;

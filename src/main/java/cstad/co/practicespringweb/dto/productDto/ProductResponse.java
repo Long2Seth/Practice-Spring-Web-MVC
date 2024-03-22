@@ -2,6 +2,7 @@ package cstad.co.practicespringweb.dto.productDto;
 
 
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 public record ProductResponse

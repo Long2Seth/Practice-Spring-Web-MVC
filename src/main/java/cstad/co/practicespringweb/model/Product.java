@@ -6,8 +6,8 @@ import lombok.*;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product {
     private int id;
     private String title;

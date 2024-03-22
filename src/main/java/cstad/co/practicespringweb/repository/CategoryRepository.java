@@ -49,7 +49,7 @@ public class CategoryRepository {
     }
 
     public List<Category> updateCategory( Category category , int id){
-        categoryList.stream().forEach(category1 -> {
+        categoryList.forEach(category1 -> {
             if(category1.getId() == id){
                 category1.setTitle(category.getTitle());
                 category1.setDescription(category.getDescription());

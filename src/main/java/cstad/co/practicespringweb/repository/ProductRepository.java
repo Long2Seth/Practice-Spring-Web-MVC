@@ -4,6 +4,7 @@ import cstad.co.practicespringweb.model.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -46,6 +47,24 @@ public class ProductRepository {
 
     public List<Product> addProduct ( Product product ){
         productList.add(product);
+        return productList;
+    }
+
+    public List<Product> deletedProduct ( int id ){
+        productList.removeIf(product -> product.getId() == id);
+        return productList;
+    }
+
+    public List<Product> updateProduct ( Product product , int id ){
+        productList.forEach(product1 -> {
+            if(product1.getId() == id){
+                product1.setTitle(product.getTitle());
+                product1.setDescription(product.getDescription());
+                product1.setPrice(product.getPrice());
+                product1.setImageUrl(product.getImageUrl());
+                product1.setCategoryId(product.getCategoryId());
+            }
+        });
         return productList;
     }
 
